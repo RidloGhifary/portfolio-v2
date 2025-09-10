@@ -94,6 +94,42 @@ const commands: CommandType = {
     `;
     },
   },
+  open: {
+    description: "Open a link in a new tab",
+    usage: "open <url|keyword>",
+    run: (args) => {
+      if (args.length === 0) return "usage: open <url|keyword>";
+
+      const shortcuts: Record<string, string> = {
+        github: "https://github.com/RidloGhifary",
+        linkedin: "https://linkedin.com/in/ridlo-ghifary",
+        instagram: "https://instagram.com/rdllghifary_",
+        email: "mailto:ridloghfry@gmail.com",
+      };
+
+      let url = args[0];
+
+      // if user types just "github", map to link
+      if (shortcuts[url]) {
+        url = shortcuts[url];
+      } else {
+        return "Unknown shortcut. Available: github, linkedin, instagram, email";
+      }
+
+      // if user didn’t type protocol, add https://
+      if (!url.startsWith("http") && !url.startsWith("mailto:")) {
+        url = "https://" + url;
+      }
+
+      // open in new tab
+      setTimeout(() => {
+        window.open(url, "_blank");
+      }, 500);
+
+      return `Opening ${url} ...`;
+    },
+  },
+
   "fuck you": {
     description: "Fuck you too",
     response: "Fuck you too",
