@@ -1,3 +1,5 @@
+import { CommandType } from "@/types";
+
 const projects = [
   {
     title: "Hacker Portfolio",
@@ -19,9 +21,7 @@ const projects = [
   },
 ];
 
-const commands: {
-  [key: string]: { description: string; response: string };
-} = {
+const commands: CommandType = {
   help: {
     description: "List available commands",
     response: `start a working area (see also: terminal help)
@@ -50,13 +50,49 @@ const commands: {
   contact: {
     description: "How to reach me",
     response: `Let's connect!
-      email     ridloghfry@gmail.com
-      gitHub    github.com/RidloGhifary
-      linkedIn  linkedin.com/in/ridlo-ghifary`,
+      email         ridloghfry@gmail.com
+      gitHub        github.com/RidloGhifary
+      linkedIn      linkedin.com/in/ridlo-ghifary
+      instagram     instagram.com/rdllghifary_`,
   },
   clear: {
     description: "Clear the terminal",
     response: "clear",
+  },
+  echo: {
+    description: "Echo back your text",
+    usage: "echo <text>",
+    run: (args) => args.join(" "), // just glue back whatever user typed
+  },
+  date: {
+    description: "Show current date and time",
+    usage: "date",
+    run: () => new Date().toString(),
+  },
+  whoami: {
+    description: "Who am I?",
+    response: "ridloghfry",
+  },
+  cowsay: {
+    description: "Cow says what you type",
+    usage: "cowsay <text>",
+    run: (args) => {
+      if (args.length === 0) return "usage: cowsay <text>";
+
+      const msg = args.join(" ");
+      const border = "-".repeat(msg.length + 2);
+
+      return `
+ ${border}
+< ${msg} >
+ ${border}
+        \\   ^__^
+         \\  (oo)\\_______
+            (__)\\       )\\/\\
+                ||----w |
+                ||     ||
+    `;
+    },
   },
   "fuck you": {
     description: "Fuck you too",

@@ -1,5 +1,12 @@
+import React from "react";
+
 type CommandType = {
-  [key: string]: { description: string; response: string };
+  [key: string]: {
+    description: string;
+    response?: string;
+    usage?: string;
+    run?: (args?: any) => string | void;
+  };
 };
 
 type FallbackType = string[];
