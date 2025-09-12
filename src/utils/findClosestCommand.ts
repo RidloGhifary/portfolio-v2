@@ -12,7 +12,7 @@ export default function findClosestCommand(
     if (cmd.startsWith(input)) return cmd; // quick win
 
     // Levenshtein-ish simple distance
-    let dist = levenshtein(input, cmd);
+    const dist = levenshtein(input, cmd);
     if (dist < minDistance) {
       minDistance = dist;
       closest = cmd;
