@@ -87,7 +87,8 @@ const commands: CommandType = {
   },
   about: {
     description: "Info about me",
-    response: "Yo, I’m Ridlo. Fullstack dev & professional keyboard smasher.",
+    response:
+      "I'm Ridlo, a fullstack developer with a passion for building blazingly fast web applications. This is my portfolio, where I showcase my skills and projects I've worked on. I'm also a professional keyboard smasher.",
   },
   projects: {
     description: "List my projects",
