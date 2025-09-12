@@ -3,7 +3,7 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Install dependencies
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
 
 # Copy source files
@@ -14,16 +14,8 @@ run npm run build
 FROM node:18-alpine AS production
 WORKDIR /app
 
-# Install dependencies
-COPY package.json package-lock.json ./
-RUN npm install --production
-
 # Copy built files from the build stage
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app ./
 
 # Expose port
 EXPOSE 3000
