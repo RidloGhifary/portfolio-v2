@@ -48,17 +48,10 @@ export default function Terminal() {
 
       if (suggestion) {
         output = `did you mean "${suggestion}"?`;
-      } else {
-        output = fallbacks[Math.floor(Math.random() * fallbacks.length)];
-      }
-
-      // if command has a run function, execute it
-      if (typeof command?.run === "function") {
+      } else if (typeof command?.run === "function") {
         output = command.run(args);
       } else {
-        output =
-          command?.response ||
-          fallbacks[Math.floor(Math.random() * fallbacks.length)];
+        output = fallbacks[Math.floor(Math.random() * fallbacks.length)];
       }
     }
 
@@ -103,7 +96,8 @@ export default function Terminal() {
   return (
     <div
       onClick={() => inputRef.current?.focus()}
-      className="h-screen bg-black text-white font-mono p-4 font-medium overflow-y-auto">
+      className="h-screen bg-black text-white font-mono p-4 font-medium overflow-y-auto"
+    >
       <CommandHistory history={history} />
 
       <form onSubmit={handleSubmit} className="flex">
