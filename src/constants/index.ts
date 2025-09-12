@@ -1,4 +1,8 @@
+import figlet from "figlet";
+import Doom from "figlet/importable-fonts/Doom.js";
 import { CommandType } from "@/types";
+
+figlet.parseFont("Doom", Doom);
 
 const projects = [
   {
@@ -62,7 +66,7 @@ const commands: CommandType = {
   echo: {
     description: "Echo back your text",
     usage: "echo <text>",
-    run: (args) => args.join(" "), // just glue back whatever user typed
+    run: (args) => args.join(" "),
   },
   date: {
     description: "Show current date and time",
@@ -129,7 +133,16 @@ const commands: CommandType = {
       return `Opening ${url} ...`;
     },
   },
-
+  banner: {
+    description: "Show ASCII art banner",
+    run: (args) => {
+      if (args.length === 0) {
+        return figlet.textSync("Ridlo Achmad Ghifary", { font: "Doom" });
+      } else {
+        return figlet.textSync(args.join(" "), { font: "Doom" });
+      }
+    },
+  },
   "fuck you": {
     description: "Fuck you too",
     response: "Fuck you too",
