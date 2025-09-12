@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Deploy to Server
-        uses: appleboy/ssh-deploy@v2.1.5
+        uses: appleboy/ssh-deploy@v0.1.3
         with:
           HOST: ${{ secrets.VPS_HOST }}
           USERNAME: ${{ secrets.VPS_USER }}
