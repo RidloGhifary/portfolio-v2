@@ -32,35 +32,35 @@ const projects = [
     title: "GymSync <rdllywternbbcgsytsfbsdv>",
     description:
       "GymSync is a fitness-oriented term that could be associated with activities related to synchronizing or coordinating workouts, exercise routines, or fitness tracking. It might involve t integration of technology, apps, or devices to streamline a optimize fitness experiences.",
-    github: "https://github.com/RidloGhifary/gymsync",
+    repository: "https://github.com/RidloGhifary/gymsync",
     demo: "https://gymsync.vercel.app",
   },
   {
     title: "Car Rental <rdllbvbxvchgqweytwyety>",
     description:
       "Car Rental is a service-oriented project that focuses on providing an efficient and user-friendly platform for renting vehicles. The system allows users to search, book, and manage car rentals, offering features such as real-time availability, various vehicle options.",
-    github: "https://github.com/RidloGhifary/code-challenge-front-end",
+    repository: "https://github.com/RidloGhifary/code-challenge-front-end",
     demo: "https://landingcarental.netlify.app/",
   },
   {
     title: "Playlist Converter <rdllmnkozixuwrnewrbnbn>",
     description:
       "This project is a web application that allows you to convert a playlist from YouTube to Spotify.",
-    github: "https://github.com/RidloGhifary/youtube-playlist-converter",
+    repository: "https://github.com/RidloGhifary/youtube-playlist-converter",
     demo: "https://youtube-playlist-converter.vercel.app/",
   },
   {
     title: "Spotify Clone <rdllspitofydeltavxvbyb>",
     description:
       "A Spotify clone built with Next.js and Supabase database. It features user authentication, music playback, and playlist management.",
-    github: "https://github.com/RidloGhifary/spotify-clone",
+    repository: "https://github.com/RidloGhifary/spotify-clone",
     demo: "https://spitofy-delta.vercel.app/",
   },
   {
     title: "Betty <rdllbettyidvbfytsrbyb>",
     description:
       "Betty is a complete solution for your business needs! Betty helps with everything from transaction processing to detailed sales reporting. With enhanced features, Betty makes managing your business simpler and more efficient.",
-    github: "unavailable",
+    repository: "unavailable",
     demo: "https://betty.id/",
   },
 ];
@@ -97,7 +97,7 @@ const commands: CommandType = {
           `${i + 1}. ${p.title}
    ${p.description}
    -
-   GitHub: ${p.github}
+   Repository: ${p.repository}
    Demo:   ${p.demo}\n`
       )
       .join("\n"),
@@ -181,10 +181,113 @@ const commands: CommandType = {
     },
   },
   open: {
-    description: "Open a link in a new tab",
-    usage: "open <url|keyword>",
+    description: "Open links (project repos, demos, profiles, etc.)",
+    usage: `
+      Usage:
+        open project <repo|demo> <id>   Open project repo or demo by its ID
+        open github                     Open my GitHub profile
+        open linkedin                   Open my LinkedIn profile
+        open instagram                  Open my Instagram
+        open medium                     Open my Medium profile
+
+      Examples:
+        open project repo 1
+        open project demo 2
+        open github
+    `,
     run: (args) => {
-      if (args.length === 0) return "usage: open <url|keyword>";
+      if (args.length === 0) {
+        return "Try 'open --help' for usage.";
+      }
+
+      if (args.length === 1 && args[0] === "project") {
+        return "Usage: open project <repo|demo> <id>";
+      }
+
+      if (args[0] === "--help") {
+        return `        Usage:
+          open project <repo|demo> <id>   Open project repo or demo by its ID
+          open github                     Open my GitHub profile
+          open linkedin                   Open my LinkedIn profile
+          open instagram                  Open my Instagram
+          open medium                     Open my Medium profile
+
+        Examples:
+          open project repo 1
+          open project demo 2
+          open github`;
+      }
+
+      if (args[0] === "project") {
+        const type = args[1]; // repo | demo
+        const id = args[2];
+
+        if (type !== "repo" && type !== "demo") {
+          return `Unknown type "${type}". Use "repo" or "demo".`;
+        }
+
+        if (!type || !id) {
+          return "Usage: open project <repo|demo> <id>";
+        }
+
+        const projects = [
+          {
+            id: "rdllywternbbcgsytsfbsdv",
+            title: "GymSync",
+            repo: "https://github.com/RidloGhifary/gymsync",
+            demo: "https://gymsync.vercel.app",
+          },
+          {
+            id: "rdllbvbxvchgqweytwyety",
+            title: "Car Rental",
+            repo: "https://github.com/RidloGhifary/code-challenge-front-end",
+            demo: "https://landingcarental.netlify.app/",
+          },
+          {
+            id: "rdllmnkozixuwrnewrbnbn",
+            title: "Playlist Converter",
+            repo: "https://github.com/RidloGhifary/youtube-playlist-converter",
+            demo: "https://youtube-playlist-converter.vercel.app/",
+          },
+          {
+            id: "rdllspitofydeltavxvbyb",
+            title: "Spotify Clone",
+            repo: "https://github.com/RidloGhifary/spotify-clone",
+            demo: "https://spitofy-delta.vercel.app/",
+          },
+          {
+            id: "rdllbettyidvbfytsrbyb",
+            title: "Betty",
+            repo: "unavailable",
+            demo: "https://betty.id/",
+          },
+        ];
+
+        const project = projects.find((p) => p.id === id);
+        if (!project) return `Project with ID "${id}" not found.`;
+
+        if (type === "repo") {
+          if (!project.repo || project.repo === "unavailable")
+            return "Sorry, this project’s repo is unavailable.";
+
+          setTimeout(() => {
+            window.open(project.repo, "_blank");
+          }, 500);
+
+          return `Opening repo: ${project.title}`;
+        }
+        if (type === "demo") {
+          if (!project.demo || project.demo === "unavailable")
+            return "Sorry, this project’s demo is unavailable.";
+
+          setTimeout(() => {
+            window.open(project.demo, "_blank");
+          }, 500);
+          return `Opening demo: ${project.title}`;
+        }
+
+        return "Invalid type. Use 'repo' or 'demo'.";
+      }
 
       const shortcuts: Record<string, string> = {
         github: "https://github.com/RidloGhifary",
