@@ -1,0 +1,42 @@
+# dependencies
+node_modules
+.pnpm-store
+
+# debug / logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# env & secrets
+.env
+.env.*
+!.env.example
+
+# docker config
+Dockerfile
+docker-compose.yml
+
+# git stuff
+.git
+.gitignore
+.github
+.gitattributes
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+*.swp
+
+# test & build artifacts
+coverage
+*.tgz
+*.out
+*.pid
+*.seed
+*.tsbuildinfo
+dist
+build
