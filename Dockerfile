@@ -8,7 +8,7 @@ RUN npm install
 
 # Copy source files
 COPY . .
-run npm run build 
+RUN npm run build 
 
 # Production Stage
 FROM node:18-alpine AS production

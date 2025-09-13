@@ -1,0 +1,21 @@
+version: "2.1.0"
+
+services:
+  portfolio-v2:
+    container_name: portfolio-v2
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    command: >
+      /bin/sh -c "  
+        env &&
+        npm run start
+      "
+    volumes:
+      - portfolio_data:/app/data
+
+volumes:
+  portfolio_data:
