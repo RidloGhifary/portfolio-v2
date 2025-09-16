@@ -41,4 +41,6 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-v2:latest
             docker rm -f portfolio-v2 || true
             docker run -d --name portfolio-v2 -p 3001:3000 --restart always ${{ secrets.DOCKERHUB_USERNAME }}/portfolio-v2:latest
+
+            docker image prune -f
             docker ps
