@@ -1,0 +1,18 @@
+{
+  "id": "/",
+  "short_name": "Ridlo Achmad Ghifary",
+  "name": "Ridlo Achmad Ghifary's Portfolio",
+  "description": "Portfolio website of Ridlo Achmad Ghifary, a software developer specializing in web and mobile applications.",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "https://fpw8ui6qzh.ufs.sh/f/yG9PaXbHEXJB1Q4LGJwoUz5WgRHAyiDLrfqtexOSmZ2wCs4X",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
