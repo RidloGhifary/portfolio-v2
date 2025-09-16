@@ -26,8 +26,25 @@ export const metadata: Metadata = {
     "ridloghfry",
     "ridlo achmad ghifary",
     "ridlo portfolio",
+    "ridlo achmad ghifary portfolio",
+    "ridlo achmad ghifary web portfolio",
   ],
   authors: [{ name: "Ridlo Achmad Ghifary", url: "https://ridloghfry.web.id" }],
+  openGraph: {
+    title: "Ridlo Achmad Ghifary",
+    description:
+      "I'm Ridlo, a fullstack developer with a passion for building blazingly fast web applications. This is my portfolio, where I showcase my skills and projects I've worked on. I'm also a professional keyboard smasher.",
+    type: "website",
+    url: "https://ridloghfry.web.id",
+    images: [
+      {
+        url: "https://fpw8ui6qzh.ufs.sh/f/yG9PaXbHEXJB1Q4LGJwoUz5WgRHAyiDLrfqtexOSmZ2wCs4X",
+        width: 764,
+        height: 764,
+        alt: "Ridlo Achmad Ghifary's Portfolio",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
