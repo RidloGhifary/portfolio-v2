@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     "ridlo achmad ghifary web portfolio",
   ],
   authors: [{ name: "Ridlo Achmad Ghifary", url: "https://ridloghfry.web.id" }],
+  alternates: {
+    canonical: "https://ridloghfry.web.id",
+  },
   openGraph: {
     title: "Ridlo Achmad Ghifary",
     description:
