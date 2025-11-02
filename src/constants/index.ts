@@ -47,7 +47,7 @@ const projects = [
     description:
       "This project is a web application that allows you to convert a playlist from YouTube to Spotify.",
     repository: "https://github.com/RidloGhifary/youtube-playlist-converter",
-    demo: "https://youtube-playlist-converter.vercel.app/",
+    demo: "https://spotube.convert.ridloghfry.web.id",
   },
   {
     title: "Spotify Clone <rdllspitofydeltavxvbyb>",
@@ -75,14 +75,14 @@ const commands: CommandType = {
       contact      How to reach me
       open         Open a link (e.g. open github)
       open project <repo|demo> <id>     Open project repo or demo by its ID
-        
+
 
       echo         Echo back your text
       date         Show current date and time
       whoami       Who am I?
       cowsay       Cow says what you type
       banner       Show ASCII art banner (e.g. banner hello world)
-      
+
       clear        Clear the screen`,
   },
   about: {
@@ -99,7 +99,7 @@ const commands: CommandType = {
    ${p.description}
    -
    Repository: ${p.repository}
-   Demo:   ${p.demo}\n`
+   Demo:   ${p.demo}\n`,
       )
       .join("\n"),
   },
