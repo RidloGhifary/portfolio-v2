@@ -1,1 +1,22 @@
 @import "tailwindcss";
+
+@keyframes macHello {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(2);
+    filter: blur(0);
+  }
+}
+
+.macos-hello {
+  will-change: opacity, transform, filter;
+  animation: macHello 2.8s cubic-bezier(0.22, 1, 0.36, 1);
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+}

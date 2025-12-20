@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     "achmad",
     "ghifary",
     "ridloghfry",
+    "ridlo ghifary",
     "ridlo achmad ghifary",
     "ridlo portfolio",
     "ridlo achmad ghifary portfolio",
@@ -58,8 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
     </html>
