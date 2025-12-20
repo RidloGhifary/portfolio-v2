@@ -99,7 +99,7 @@ const commands: CommandType = {
    ${p.description}
    -
    Repository: ${p.repository}
-   Demo:   ${p.demo}\n`,
+   Demo:   ${p.demo}\n`
       )
       .join("\n"),
   },
@@ -341,3 +341,18 @@ const commands: CommandType = {
 };
 
 export { commands, fallbacks };
+
+export const docks = [
+  {
+    id: 2,
+    imageSrc: "/finder.png",
+    alt: "finder",
+    is_active: false,
+  },
+  {
+    id: 1,
+    imageSrc: "/terminal.webp",
+    alt: "terminal",
+    is_active: true,
+  },
+];
