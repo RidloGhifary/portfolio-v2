@@ -2,10 +2,11 @@
 
 import { commands, fallbacks } from "@/constants";
 import { useDraggable } from "@/hooks/useDraggable";
+import { useTextZoom } from "@/hooks/useTextZoom";
 import { HistoryType } from "@/types";
 import findClosestCommand from "@/utils/findClosestCommand";
 import { useMeasure } from "@uidotdev/usehooks";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import CommandHistory from "./CommandHistory";
 
 export default function Terminal() {
@@ -18,6 +19,7 @@ export default function Terminal() {
 
   const [ref, { width, height }] = useMeasure();
   const { pos, handleProps, containerProps } = useDraggable({ x: 100, y: 100 });
+  const { scale, bind } = useTextZoom();
 
   // scroll to bottom whenever history changes
   useEffect(() => {
@@ -98,31 +100,51 @@ export default function Terminal() {
     }
   };
 
+  function autoResize(el: HTMLTextAreaElement) {
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  }
+
+  useLayoutEffect(() => {
+    autoResize(inputRef.current as HTMLTextAreaElement);
+  }, [scale]);
+
   return (
-    <div {...containerProps} className="relative w-screen h-screen">
+    <div {...containerProps} className="relative h-screen w-screen">
       <div
         ref={ref}
-        className="absolute w-[80%] h-[calc(100%-8rem)] flex flex-col justify-center items-center"
-        style={{ transform: `translate(${pos.x}px, ${pos.y}px)` }}>
+        className="absolute flex h-[clamp(400px,85vh,900px)] w-[clamp(320px,80vw,1200px)] flex-col items-center justify-center"
+        style={{ transform: `translate(${pos.x}px, ${pos.y}px)` }}
+      >
         <div
           {...handleProps}
-          className="w-full relative py-2.5 px-3 text-white bg-zinc-800 rounded-t-xl select-none flex cursor-grab active:cursor-grabbing">
-          <div className="flex gap-3 items-center flex-0">
-            <div className="size-3.5 bg-red-400 rounded-full cursor-pointer" />
-            <div className="size-3.5 bg-yellow-400 rounded-full cursor-pointer" />
-            <div className="size-3.5 bg-green-400 rounded-full cursor-pointer" />
+          className="relative flex w-full cursor-grab rounded-t-xl bg-zinc-800 px-3 py-2.5 text-white select-none active:cursor-grabbing"
+        >
+          <div className="flex flex-0 items-center gap-3">
+            <div className="size-3.5 cursor-pointer rounded-full bg-red-400" />
+            <div className="size-3.5 cursor-pointer rounded-full bg-yellow-400" />
+            <div className="size-3.5 cursor-pointer rounded-full bg-green-400" />
           </div>
 
           {/* Centered title */}
-          <p className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-zinc-300 font-medium pointer-events-none">
+          <p className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-medium text-zinc-300">
             ridloghfry - terminal -- {Math.floor(width ?? 0)}x
             {Math.floor(height ?? 0)}
           </p>
         </div>
 
         <div
+          {...bind}
           onClick={() => inputRef.current?.focus()}
-          className="w-full h-full rounded-b-xl bg-black text-white font-mono p-4 font-medium overflow-y-auto">
+          style={
+            {
+              "--cmd-scale": scale,
+              fontSize: `${scale}em`,
+            } as React.CSSProperties
+          }
+          className="h-full w-full overflow-y-auto rounded-b-xl bg-black p-4 font-mono font-medium text-white"
+        >
           <CommandHistory history={history} />
 
           <form onSubmit={handleSubmit} className="flex">
@@ -134,15 +156,13 @@ export default function Terminal() {
               ref={inputRef}
               autoFocus
               rows={1}
-              className="bg-black outline-none text-white flex-1 resize-none overflow-hidden"
+              className="flex-1 resize-none overflow-hidden bg-black text-white outline-none"
               value={input}
               placeholder="help"
               onChange={(e) => {
                 setInput(e.target.value);
+                autoResize(e.target);
                 bottomRef.current?.scrollIntoView();
-
-                e.target.style.height = "auto";
-                e.target.style.height = `${e.target.scrollHeight}px`;
               }}
               onKeyDown={(e) => handleKeyDown(e)}
             />
