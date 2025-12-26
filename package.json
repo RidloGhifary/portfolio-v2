@@ -16,12 +16,14 @@
     "@uidotdev/usehooks": "^2.4.1",
     "clsx": "^2.1.1",
     "figlet": "^1.9.1",
+    "motion": "^12.23.26",
     "next": "15.5.7",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-resizable": "^3.0.5",
     "sharp": "^0.34.5",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

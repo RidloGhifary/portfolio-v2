@@ -1,23 +1,30 @@
-import Image from "next/image";
 import { docks } from "@/constants/index";
+import { useApplication } from "@/hooks/useApplication";
+import Image from "next/image";
 
 export default function Dock() {
+  const { applicationId, windowStatus, openWindow } = useApplication();
+
   return (
-    <div className="bg-stone-600/50 backdrop-blur-lg border-stone-500 border rounded-3xl mb-2 p-1.5 absolute bottom-0 left-1/2 -translate-x-1/2 flex justify-center items-start shadow-lg gap-2 shadow-black/30">
+    <div className="absolute bottom-0 left-1/2 mb-2 flex -translate-x-1/2 items-start justify-center gap-2 rounded-3xl border border-stone-500 bg-stone-600/50 p-1.5 shadow-lg shadow-black/30 backdrop-blur-lg">
       {docks.map((dock: any) => (
         <div
           key={dock.id}
-          className="flex flex-col gap-0.5 items-center cursor-not-allowed">
+          onClick={() => openWindow(dock.app_id)}
+          className="flex cursor-pointer flex-col items-center gap-0.5"
+        >
           <Image
             src={dock.imageSrc}
             alt={dock.alt}
             priority
             width={100}
             height={100}
-            className="size-14 hover:scale-125 hover:-translate-y-2 transition-transform duration-200 ease-in-out"
+            className="size-14 transition-transform duration-200 ease-in-out hover:-translate-y-2 hover:scale-125"
           />
 
-          {dock.is_active && <div className="size-1 rounded-full bg-white" />}
+          {applicationId === dock.app_id && windowStatus !== "closed" && (
+            <div className="size-1 rounded-full bg-white" />
+          )}
         </div>
       ))}
     </div>
