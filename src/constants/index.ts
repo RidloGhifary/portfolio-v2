@@ -99,7 +99,7 @@ const commands: CommandType = {
    ${p.description}
    -
    Repository: ${p.repository}
-   Demo:   ${p.demo}\n`
+   Demo:   ${p.demo}\n`,
       )
       .join("\n"),
   },
@@ -342,17 +342,27 @@ const commands: CommandType = {
 
 export { commands, fallbacks };
 
+// ==== Application IDs =====
+export const appIdsEnum = {
+  finder_1: "finder_1",
+  terminal_1: "terminal_1",
+};
+
+// ==== Docks ====
 export const docks = [
   {
     id: 2,
+    app_id: appIdsEnum.finder_1,
     imageSrc: "/finder.png",
     alt: "finder",
-    is_active: false,
   },
   {
     id: 1,
+    app_id: appIdsEnum.terminal_1,
     imageSrc: "/terminal.webp",
     alt: "terminal",
-    is_active: true,
   },
 ];
+
+// ==== Window States ====
+export type WindowState = "open" | "minimized" | "closed" | "maximized";

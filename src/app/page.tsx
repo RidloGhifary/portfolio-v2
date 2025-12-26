@@ -22,13 +22,15 @@ export default function Home() {
   return (
     <main
       onContextMenu={(e) => e.preventDefault()}
-      className="h-screen w-full flex justify-center items-center">
+      className="flex h-screen w-full items-center justify-center"
+    >
       {size && (size.width ?? 0) >= 768 ? (
         <React.Fragment>
           {!loaded && (
             <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent backdrop-blur-lg">
               <h1
-                className={`${freehand.className} macos-hello text-white italic text-7xl font-light`}>
+                className={`${freehand.className} macos-hello text-7xl font-light text-white italic`}
+              >
                 hello
               </h1>
             </div>
@@ -46,13 +48,15 @@ export default function Home() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div className="absolute inset-0 z-10 flex flex-col gap-12 items-center justify-center bg-transparent backdrop-blur-lg">
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-12 bg-transparent backdrop-blur-lg">
             <h1
-              className={`${freehand.className} macos-hello text-white italic text-6xl font-light`}>
+              className={`${freehand.className} macos-hello text-6xl font-light text-white italic`}
+            >
               hello
             </h1>
             <p
-              className={`${freehand.className} text-white/60 italic delay-[2000ms]`}>
+              className={`${freehand.className} text-white/60 italic delay-[2000ms]`}
+            >
               Your screen is too small
             </p>
           </div>
@@ -65,8 +69,8 @@ export default function Home() {
         priority
         width={1000}
         height={1000}
-        className="absolute top-0 left-0 z-[-1] object-cover object-center w-full h-full"
-        onLoadingComplete={() => setTimeout(() => setLoaded(true), 4000)}
+        className="absolute top-0 left-0 z-[-1] h-full w-full object-cover object-center"
+        onLoad={() => setTimeout(() => setLoaded(true), 1000)}
         onContextMenu={(e) => e.preventDefault()}
         draggable={false}
         unselectable="on"
