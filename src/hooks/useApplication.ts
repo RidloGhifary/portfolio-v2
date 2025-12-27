@@ -1,4 +1,4 @@
-import { appIdsEnum, WindowState } from "@/constants";
+import { appIdsEnum } from "@/constants";
 import { create } from "zustand";
 
 interface WindowSnapshot {
@@ -8,51 +8,105 @@ interface WindowSnapshot {
   height: number | string;
 }
 
-interface ApplicationState {
-  applicationId: keyof typeof appIdsEnum;
-  windowStatus: WindowState;
+type AppWindowState = {
+  status: "open" | "minimized" | "maximized" | "closed";
   prevBounds: WindowSnapshot | null;
+  zIndex: number;
+};
+
+type ApplicationState = {
+  windows: Record<keyof typeof appIdsEnum, AppWindowState>;
+  zIndexCounter: number;
+  focusWindow: (appId: keyof typeof appIdsEnum) => void;
+  openWindow: (appId: keyof typeof appIdsEnum) => void;
   closeWindow: (appId: keyof typeof appIdsEnum) => void;
   minimizeWindow: (appId: keyof typeof appIdsEnum) => void;
-  maximizeWindow: (appId: keyof typeof appIdsEnum) => void;
-  openWindow: (appId: keyof typeof appIdsEnum) => void;
-  toggleMaximize: (appId: string, bounds: WindowSnapshot) => void;
-}
+  toggleMaximize: (
+    appId: keyof typeof appIdsEnum,
+    bounds: WindowSnapshot,
+  ) => void;
+};
 
 export const useApplication = create<ApplicationState>((set) => ({
-  applicationId: "terminal_1",
-  windowStatus: "open",
-  prevBounds: null,
+  zIndexCounter: 1,
+
+  windows: {
+    finder_1: { status: "open", prevBounds: null, zIndex: 1 },
+    terminal_1: { status: "closed", prevBounds: null, zIndex: 0 },
+  },
 
   // EVENTS HANDLERS
-  closeWindow: (appId) => {
-    set({ windowStatus: "closed", applicationId: appId });
-  },
-  minimizeWindow: (appId) => {
-    set({ windowStatus: "minimized", applicationId: appId });
-  },
-  maximizeWindow: (appId) => {
-    set({ windowStatus: "maximized", applicationId: appId });
-  },
-  openWindow: (appId) => {
-    set({ windowStatus: "open", applicationId: appId });
-  },
+  focusWindow: (appId) =>
+    set((state) => {
+      const nextZ = state.zIndexCounter + 1;
+
+      return {
+        zIndexCounter: nextZ,
+        windows: {
+          ...state.windows,
+          [appId]: {
+            ...state.windows[appId],
+            zIndex: nextZ,
+          },
+        },
+      };
+    }),
+
+  openWindow: (appId) =>
+    set((state) => {
+      const nextZ = state.zIndexCounter + 1;
+
+      return {
+        zIndexCounter: nextZ,
+        windows: {
+          ...state.windows,
+          [appId]: {
+            ...state.windows[appId],
+            status: "open",
+            zIndex: nextZ,
+          },
+        },
+      };
+    }),
+
+  closeWindow: (appId) =>
+    set((state) => ({
+      windows: {
+        ...state.windows,
+        [appId]: { status: "closed", prevBounds: null, zIndex: 0 },
+      },
+    })),
+
+  minimizeWindow: (appId) =>
+    set((state) => ({
+      windows: {
+        ...state.windows,
+        [appId]: { ...state.windows[appId], status: "minimized" },
+      },
+    })),
+
   toggleMaximize: (appId, bounds) =>
     set((state) => {
-      if (state.windowStatus === "maximized") {
-        // restore
+      const win = state.windows[appId];
+
+      if (win.status === "maximized") {
         return {
-          windowStatus: "open",
-          applicationId: state.applicationId as "finder_1" | "terminal_1",
-          prevBounds: null,
+          windows: {
+            ...state.windows,
+            [appId]: { ...win, status: "open", prevBounds: null },
+          },
         };
       }
 
-      // maximize
       return {
-        windowStatus: "maximized",
-        applicationId: appId as "finder_1" | "terminal_1",
-        prevBounds: bounds,
+        windows: {
+          ...state.windows,
+          [appId]: {
+            ...win,
+            status: "maximized",
+            prevBounds: bounds,
+          },
+        },
       };
     }),
 }));

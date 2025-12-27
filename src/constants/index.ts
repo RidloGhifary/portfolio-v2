@@ -1,6 +1,7 @@
 import figlet from "figlet";
 import Doom from "figlet/importable-fonts/Doom.js";
 import { CommandType } from "@/types";
+import { Clock9, Cloudy, Dock, File, FileDown, FolderUp } from "lucide-react";
 
 figlet.parseFont("Doom", Doom);
 
@@ -366,3 +367,41 @@ export const docks = [
 
 // ==== Window States ====
 export type WindowState = "open" | "minimized" | "closed" | "maximized";
+
+// ==== FINDER FAVORITES ====
+export const finderFavorites = [
+  {
+    id: "recent_1",
+    name: "Recent",
+    icon: Clock9,
+  },
+  {
+    id: "desktop_1",
+    name: "Desktop",
+    icon: Dock,
+  },
+  {
+    id: "document_1",
+    name: "Document",
+    icon: File,
+  },
+  {
+    id: "downloads_1",
+    name: "Downloads",
+    icon: FileDown,
+  },
+];
+
+// ==== FINDER CLOUD ====
+export const finderiCloud = [
+  {
+    id: "icloud_1",
+    name: "iCloud",
+    icon: Cloudy,
+  },
+  {
+    id: "shared_1",
+    name: "Shared",
+    icon: FolderUp,
+  },
+];
