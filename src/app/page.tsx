@@ -7,6 +7,7 @@ import { Pacifico } from "next/font/google";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useWindowSize } from "@uidotdev/usehooks";
+import Finder from "@/components/docks/finder/Finder";
 
 const freehand = Pacifico({
   weight: "400",
@@ -41,7 +42,9 @@ export default function Home() {
               <div className="absolute top-10 left-1/2 -translate-x-1/2">
                 <Clock />
               </div>
+
               <Terminal />
+              <Finder />
               <Dock />
             </React.Fragment>
           )}

@@ -24,22 +24,19 @@ export default function Terminal() {
 
   const { scale, bind } = useTextZoom();
   const [ref, { width, height }] = useMeasure();
-  const {
-    windowStatus,
-    closeWindow,
-    minimizeWindow,
-    toggleMaximize,
-    prevBounds,
-  } = useApplication();
+  const { windows, closeWindow, minimizeWindow, toggleMaximize, focusWindow } =
+    useApplication();
   const { pos, handleProps, containerProps } = useDraggable({
     initialPos: { x: 100, y: 100 },
     handleOnDragStart: () => setIsDragging(true),
     handleOnDragEnd: () => setIsDragging(false),
-    disabled: windowStatus === "maximized",
+    disabled: windows["terminal_1"].status === "maximized",
   });
 
-  const isMinimized = windowStatus === "minimized";
-  const isMaximized = windowStatus === "maximized";
+  const terminal = windows["terminal_1"];
+
+  const isMinimized = terminal.status === "minimized";
+  const isMaximized = terminal.status === "maximized";
 
   // scroll to bottom whenever history changes
   useEffect(() => {
@@ -131,7 +128,7 @@ export default function Terminal() {
 
   return (
     <AnimatePresence>
-      {windowStatus !== "closed" && (
+      {terminal.status !== "closed" && (
         <motion.div
           ref={ref}
           {...containerProps}
@@ -139,14 +136,14 @@ export default function Terminal() {
           animate={{
             opacity: 1,
             scale: isDragging ? 1 : isMinimized ? 0 : 1,
-            x: isMaximized ? 0 : (prevBounds?.x ?? pos.x),
-            y: isMaximized ? 0 : (prevBounds?.y ?? pos.y),
+            x: isMaximized ? 0 : (terminal.prevBounds?.x ?? pos.x),
+            y: isMaximized ? 0 : (terminal.prevBounds?.y ?? pos.y),
             width: isMaximized
               ? "100vw"
-              : (prevBounds?.width ?? "clamp(320px,80vw,1200px)"),
+              : (terminal.prevBounds?.width ?? "clamp(320px,80vw,1200px)"),
             height: isMaximized
               ? "100dvh"
-              : (prevBounds?.height ?? "clamp(400px,85vh,900px)"),
+              : (terminal.prevBounds?.height ?? "clamp(400px,85vh,900px)"),
             borderRadius: isMaximized ? 0 : 12,
           }}
           transition={
@@ -159,6 +156,8 @@ export default function Terminal() {
                 }
           }
           className="absolute flex flex-col bg-black"
+          style={{ zIndex: terminal.zIndex }}
+          onPointerDown={() => focusWindow("terminal_1")}
         >
           <div className={cn("relative w-full", isMaximized && "group")}>
             {/* TERMINAL HEADER */}
