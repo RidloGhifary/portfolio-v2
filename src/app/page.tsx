@@ -2,12 +2,12 @@
 
 import Clock from "@/components/Clock";
 import Dock from "@/components/Dock";
-import Terminal from "@/components/Terminal";
+import Finder from "@/components/docks/finder/Finder";
+import Terminal from "@/components/docks/terminal/Terminal";
+import { useWindowSize } from "@uidotdev/usehooks";
 import { Pacifico } from "next/font/google";
 import Image from "next/image";
 import React, { useState } from "react";
-import { useWindowSize } from "@uidotdev/usehooks";
-import Finder from "@/components/docks/finder/Finder";
 
 const freehand = Pacifico({
   weight: "400",

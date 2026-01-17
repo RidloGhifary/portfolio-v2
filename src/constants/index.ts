@@ -405,3 +405,8 @@ export const finderiCloud = [
     icon: FolderUp,
   },
 ];
+
+export const applicationKey = {
+  finder: "finder_1",
+  terminal: "terminal_1",
+};

@@ -1,12 +1,27 @@
 import { docks } from "@/constants/index";
 import { useApplication } from "@/hooks/useApplication";
+import { cn } from "@/utils/cn";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Dock() {
+  // application hooks
   const { windows, openWindow, focusWindow } = useApplication();
 
+  const isAppMaximized = Object.values(windows).some(
+    (win) => win.status === "maximized",
+  );
+
   return (
-    <div className="absolute bottom-0 left-1/2 z-[99999999] mb-2 flex -translate-x-1/2 items-start justify-center gap-2 rounded-3xl border border-stone-500 bg-stone-600/50 p-1.5 shadow-lg shadow-black/30 backdrop-blur-lg">
+    <div
+      className={cn(
+        "absolute bottom-0 left-1/2 z-[99999999] mb-2 flex -translate-x-1/2 items-start justify-center gap-2 rounded-3xl border border-stone-500 bg-stone-600/50 p-1.5 shadow-lg shadow-black/30 backdrop-blur-lg transition-transform duration-200 ease-in-out",
+        {
+          "-bottom-22 transition-transform duration-200 ease-in-out":
+            isAppMaximized,
+        },
+      )}
+    >
       {docks.map((dock: any) => {
         const window = windows[dock.app_id as keyof typeof windows];
 
