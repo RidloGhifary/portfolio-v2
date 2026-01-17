@@ -1,17 +1,17 @@
 "use client";
 
+import CommandHistory from "@/components/CommandHistory";
+import GroupButton from "@/components/GroupButton";
 import { commands, fallbacks } from "@/constants";
 import { useApplication } from "@/hooks/useApplication";
 import { useDraggable } from "@/hooks/useDraggable";
 import { useTextZoom } from "@/hooks/useTextZoom";
 import { HistoryType } from "@/types";
+import { cn } from "@/utils/cn";
 import findClosestCommand from "@/utils/findClosestCommand";
 import { useMeasure } from "@uidotdev/usehooks";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import CommandHistory from "./CommandHistory";
-import GroupButton from "./GroupButton";
-import { cn } from "@/utils/cn";
 
 export default function Terminal() {
   const [input, setInput] = useState("");
@@ -168,7 +168,7 @@ export default function Terminal() {
                 {
                   "cursor-grab active:cursor-grabbing": !isMaximized,
                   // slide down on hover
-                  "absolute -top-10 right-0 left-0 transition-all duration-200 ease-in-out group-hover:top-0":
+                  "absolute -top-10 right-0 left-0 rounded-t-none transition-all duration-200 ease-in-out group-hover:top-0":
                     isMaximized,
                 },
               )}

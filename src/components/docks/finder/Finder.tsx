@@ -4,13 +4,22 @@ import GroupButton from "@/components/GroupButton";
 import { finderFavorites, finderiCloud } from "@/constants";
 import { useApplication } from "@/hooks/useApplication";
 import { useDraggable } from "@/hooks/useDraggable";
+import { cn } from "@/utils/cn";
+import { useMeasure } from "@uidotdev/usehooks";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
 export default function Finder() {
   const [isDragging, setIsDragging] = useState(false);
 
-  const { windows, focusWindow } = useApplication();
+  // application hooks
+  const { windows, focusWindow, closeWindow, minimizeWindow, toggleMaximize } =
+    useApplication();
+
+  // measure window hooks
+  const [ref, { width, height }] = useMeasure();
+
+  // draggable hooks
   const { pos, handleProps, containerProps } = useDraggable({
     initialPos: { x: 100, y: 100 },
     handleOnDragStart: () => setIsDragging(true),
@@ -18,28 +27,52 @@ export default function Finder() {
     disabled: windows["finder_1"].status === "maximized",
   });
 
+  const toggleMaximizeHandler = () => {
+    toggleMaximize("finder_1", {
+      x: pos.x,
+      y: pos.y,
+      width: width ?? 0,
+      height: height ?? 0,
+    });
+  };
+
   const finder = windows["finder_1"];
+
+  const isMinimized = finder.status === "minimized";
+  const isMaximized = finder.status === "maximized";
 
   return (
     <AnimatePresence>
       {finder.status !== "closed" && (
         <motion.div
+          {...containerProps}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{
             opacity: 1,
-            x: pos.x,
-            y: pos.y,
+            scale: isDragging ? 1 : isMinimized ? 0 : 1,
+            x: isMaximized ? 0 : (finder.prevBounds?.x ?? pos.x),
+            y: isMaximized ? 0 : (finder.prevBounds?.y ?? pos.y),
+            width: isMaximized
+              ? "100vw"
+              : (finder.prevBounds?.width ?? "clamp(320px,80vw,1200px)"),
+            height: isMaximized
+              ? "100dvh"
+              : (finder.prevBounds?.height ?? "clamp(400px,85vh,900px)"),
+            borderRadius: isMaximized ? 0 : 12,
+            borderColor: isMaximized ? "transparent" : "border-stone-600",
           }}
           transition={
             isDragging
               ? { duration: 0 }
               : { type: "spring", stiffness: 260, damping: 22 }
           }
-          {...containerProps}
-          className="absolute h-[80%] w-[60%] overflow-hidden rounded-xl border border-stone-600 bg-stone-950"
+          className={cn(
+            "absolute overflow-hidden rounded-xl border border-stone-600 bg-stone-950",
+          )}
           style={{ zIndex: finder.zIndex }}
           onPointerDown={() => focusWindow("finder_1")}
         >
-          <div className="relative flex h-full w-full">
+          <div className="relative flex h-full w-full select-none">
             <div
               {...handleProps}
               className="absolute top-0 right-0 left-0 z-0 h-8 w-full"
@@ -49,9 +82,9 @@ export default function Finder() {
             <div className="h-full w-[18%] space-y-7 bg-stone-900 p-6 pt-8 pr-3 pl-4">
               <div className="pl-2">
                 <GroupButton
-                  handleClose={() => {}}
-                  handleMinimize={() => {}}
-                  handleMaximize={() => {}}
+                  handleClose={() => closeWindow("finder_1")}
+                  handleMinimize={() => minimizeWindow("finder_1")}
+                  handleMaximize={toggleMaximizeHandler}
                 />
               </div>
 
